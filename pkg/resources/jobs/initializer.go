@@ -60,6 +60,7 @@ func NewInitializerJob(k6 v1alpha1.TestRunI, argLine string) (*batchv1.Job, erro
 		archiveName = fmt.Sprintf("/tmp/%s.archived.tar", script.Filename)
 	)
 	istioCommand, istioEnabled := newIstioCommand(k6.GetSpec().Scuttle.Enabled, []string{"sh", "-c"})
+	istioCommand = newLinkerdCommand(istioCommand)
 	command := append(istioCommand, fmt.Sprintf(
 		// There can be several scenarios from k6 command here:
 		// a) script is correct and `k6 inspect` outputs JSON

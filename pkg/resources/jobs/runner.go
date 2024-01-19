@@ -22,6 +22,7 @@ func NewRunnerJob(k6 v1alpha1.TestRunI, index int, token string) (*batchv1.Job, 
 	postCommand := []string{"k6", "run"}
 
 	command, istioEnabled := newIstioCommand(k6.GetSpec().Scuttle.Enabled, postCommand)
+	command = newLinkerdCommand(postCommand)
 
 	quiet := true
 	if k6.GetSpec().Quiet != "" {

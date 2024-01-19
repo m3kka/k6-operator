@@ -33,6 +33,15 @@ func newIstioCommand(istioEnabled string, inheritedCommands []string) ([]string,
 	return command, istio
 }
 
+func newLinkerdCommand(inheritedCommands []string) []string {
+	var command []string
+
+	command = append(command, "./linkerd-await", "--shutdown", "--")
+	command = append(command, inheritedCommands...)
+
+	return command
+}
+
 func newIstioEnvVar(istio v1alpha1.K6Scuttle, istioEnabled bool) []corev1.EnvVar {
 	env := []corev1.EnvVar{}
 

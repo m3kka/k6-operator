@@ -42,6 +42,8 @@ func NewStarterJob(k6 v1alpha1.TestRunI, hostname []string) *batchv1.Job {
 	}
 
 	command, istioEnabled := newIstioCommand(k6.GetSpec().Scuttle.Enabled, []string{"sh", "-c"})
+	command = newLinkerdCommand(command)
+
 	env := newIstioEnvVar(k6.GetSpec().Scuttle, istioEnabled)
 	return &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
